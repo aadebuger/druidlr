@@ -1,0 +1,48 @@
+{
+  "type" : "index",
+  "spec" : {
+    "ioConfig" : {
+      "type" : "index",
+      "firehose" : {
+        "type" : "local",
+         "baseDir" : "quickstart/",
+        "filter" : "blocks.csv"
+      }
+    },
+    "dataSchema" : {
+      "dataSource" : "block",
+      "granularitySpec" : {
+        "type" : "uniform",
+        "segmentGranularity" : "day",
+        "queryGranularity" : "none",
+        "intervals" : ["2010-09-10/2018-09-30"]
+      },
+      "parser" : {
+        "type" : "string",
+        "parseSpec": {
+    "format" : "csv",
+    "timestampSpec" : {
+       "format" : "posix",
+      "column" : "timestamp"
+    },
+    "skipHeaderRows":1,
+    "columns" : ["number","hash","parent_hash","nonce","sha3_uncles","logs_bloom","transactions_root","state_root","receipts_root","miner","difficulty","total_difficulty","size","extra_data","gas_limit","gas_used","timestamp","transaction_count"],
+    "dimensionsSpec" : {
+      "dimensions" : ["number","hash","parent_hash","nonce","sha3_uncles","logs_bloom","transactions_root","state_root","receipts_root","miner","difficulty","total_difficulty","size","extra_data","gas_limit","gas_used","timestamp","transaction_count"]
+    }
+  }
+      },
+      "metricsSpec" : [
+       
+      ]
+    },
+    "tuningConfig" : {
+      "type" : "index",
+      "partitionsSpec" : {
+        "type" : "hashed",
+        "targetPartitionSize" : 5000000
+      },
+      "jobProperties" : {}
+    }
+  }
+}
